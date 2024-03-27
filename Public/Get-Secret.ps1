@@ -24,7 +24,7 @@ function Get-Secret {
         $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 1
         if ($null -eq $Secrets) { $Secrets = @{} }
 
-        $Output = @{}
+        $Output = @()
     }
     
     process {
@@ -37,7 +37,7 @@ function Get-Secret {
             $Value = Read-Host -AsSecureString -Prompt "Please enter a new value for $Name" | ConvertFrom-SecureString -AsPlainText
             Set-Secret -GroupName $GroupName -KeyStorage $KeyStorage -Name $Name -Value $Value
         }
-        $Output[$Name] = $Value
+        $Output += $Value
     }
     
     end {
