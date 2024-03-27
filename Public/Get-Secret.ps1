@@ -15,8 +15,7 @@ function Get-Secret {
     
     begin {
         $Constants = Get-SecretConstants
-
-        $GroupName = $GroupName ? $GroupName : 'Default'
+        $GroupName = $GroupName ? $GroupName : $Constants.DefaultGroupName
 
         $Certificate = Get-SecretCertificate -Name $GroupName -CertificateStore $KeyStorage
         $PrivateKey = $Certificate.PrivateKey
