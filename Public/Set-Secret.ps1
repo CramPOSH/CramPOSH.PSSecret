@@ -24,15 +24,22 @@ function Set-Secret {
         $PublicKey = $Certificate.PublicKey.GetRSAPublicKey()
 
         $FilePath = Get-SecretFile -Name $GroupName
-        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 1
+        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 100
         if ($null -eq $Secrets) { $Secrets = @{} }
     }
     
     process {
         $ValueBytes = [System.Text.Encoding]::UTF8.GetBytes($Value)
-        $ValueEncBytes = $PublicKey.Encrypt($ValueBytes, $Constants.EncryptionPadding)
-        $ValueEncB64 = [System.Convert]::ToBase64String($ValueEncBytes)
-        $Secrets[$Name] = $ValueEncB64
+        $Counter = @{ Value = 0 }
+        $ValueByteChunks = $ValueBytes | Group-Object -Property { [System.Math]::Floor($Counter.Value++ / $Constants.MaxMessageLength) }
+        $ValueEncChunks = $ValueByteChunks | ForEach-Object -Process {
+            $ChunkBytes = $_.Group
+            Write-Host $ChunkBytes.Count
+            $ChunkEncBytes = $PublicKey.Encrypt($ChunkBytes, $Constants.EncryptionPadding)
+            $ChunkEncB64 = [System.Convert]::ToBase64String($ChunkEncBytes)
+            $ChunkEncB64
+        }
+        $Secrets[$Name] = $ValueEncChunks
     }
     
     end {
