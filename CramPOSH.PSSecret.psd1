@@ -12,7 +12,7 @@
 RootModule = 'CramPOSH.PSSecret.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.5'
+ModuleVersion = '0.0.6'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -24,7 +24,7 @@ GUID = '837d05fd-d22d-4f60-b661-1347eab92169'
 Author = 'Grant Le Roux'
 
 # Company or vendor of this module
-CompanyName = ''
+CompanyName = 'CramPOSH'
 
 # Copyright statement for this module
 Copyright = '(c) Grant Le Roux. All rights reserved.'
