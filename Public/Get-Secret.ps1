@@ -17,8 +17,7 @@ function Get-Secret {
         $Constants = Get-SecretConstants
         if ($null -eq $GroupName) { $GroupName = $Constants.DefaultGroupName }
 
-        $Certificate = Get-SecretCertificate -Name $GroupName -CertificateStore $KeyStorage
-        $PrivateKey = $Certificate.PrivateKey
+        $PrivateKey = Get-SecretPrivateKey -Name $GroupName -CertificateStore $KeyStorage
 
         $FilePath = Get-SecretFile -Name $GroupName
         $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json

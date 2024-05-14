@@ -29,6 +29,7 @@ function Get-SecretCertificate {
                 KeyLength = 2048
                 KeyExportPolicy = 'Exportable'
                 NotAfter = (Get-Date).AddYears(5)
+                Provider = 'Microsoft Software Key Storage Provider'
             }
             $Certificate = New-SelfSignedCertificate @CertificateParams
         }

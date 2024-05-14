@@ -26,19 +26,19 @@ function Clear-Secret {
         
         $TheCertificate = Get-SecretCertificate -Name $GroupName -CertificateStore $KeyStorage
         $FilePath = Get-SecretFile -Name $GroupName
-        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 1
-        if ($null -eq $Secrets) { $Secrets = @{} }
+        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json
+        if ($null -eq $Secrets) { $Secrets = [pscustomobject]@{} }
     }
     
     process {
         if ($Name) {
-            $Secrets.Remove($Name)
+            $Secrets = $Secrets | Select-Object -ExcludeProperty $Name
         }
     }
     
     end {
         if ($Name) {
-            Set-Content -Path $FilePath -Value ($Secrets | ConvertTo-Json -Depth 1) -Force
+            Set-Content -Path $FilePath -Value ($Secrets | ConvertTo-Json) -Force
         }
         if ($File) {
             Remove-Item -Path $FilePath -Force -Confirm:$false
