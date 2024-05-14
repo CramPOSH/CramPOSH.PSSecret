@@ -8,7 +8,7 @@ function Get-SecretFile {
     
     begin {
         $DirectorySeparator = [System.IO.Path]::DirectorySeparatorChar
-        $Name = $Name ? $Name : 'Default'
+        if ($null -eq $Name) { $Name = 'Default' }
         
         $RootPath = $env:LOCALAPPDATA + $DirectorySeparator + 'PSSecrets'
         if (-not (Test-Path -Path $RootPath -PathType Container)) { New-Item -Path $RootPath -ItemType Directory -Force | Out-Null }

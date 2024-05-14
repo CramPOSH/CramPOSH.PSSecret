@@ -12,7 +12,8 @@ function Get-SecretCertificate {
     
     begin {
         $Constants = Get-SecretConstants
-        $CertificateName = [string]::Format('{0} - {1}', $Constants.CertificateNamePrefix, $Name ? $Name : 'Default')
+        if ($null -eq $Name) { $Name = 'Default' }
+        $CertificateName = [string]::Format('{0} - {1}', $Constants.CertificateNamePrefix, $Name)
     }
     
     process {
