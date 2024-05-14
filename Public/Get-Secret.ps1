@@ -22,14 +22,14 @@ function Get-Secret {
 
         $FilePath = Get-SecretFile -Name $GroupName
         $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json
-        if ($null -eq $Secrets) { $Secrets = @{} }
+        if ($null -eq $Secrets) { $Secrets = [pscustomobject]@{} }
 
         $Output = @()
     }
     
     process {
-        $ValueEncB64 = $Secrets[$Name]
-        if ($ValueEncB64) {
+        if ($Secrets | Get-Member -Name $Name -MemberType NoteProperty) {
+            $ValueEncB64 = $Secrets.$Name
             $ValueByteChunks = $ValueEncB64 | ForEach-Object -Process {
                 $ChunkEncB64 = $_
                 $ChunkEncBytes = [System.Convert]::FromBase64String($ChunkEncB64)
