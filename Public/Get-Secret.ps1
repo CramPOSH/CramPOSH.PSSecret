@@ -37,7 +37,10 @@ function Get-Secret {
             }
             $Value = [System.Text.Encoding]::UTF8.GetString($ValueByteChunks)
         } else {
-            $Value = Read-Host -AsSecureString -Prompt "Please enter a new value for $Name" | ConvertFrom-SecureString
+            $SecureValue = Read-Host -AsSecureString -Prompt "Please enter a new value for $Name"
+            $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecureValue)
+            $Value = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
             Set-Secret -GroupName $GroupName -KeyStorage $KeyStorage -Name $Name -Value $Value
         }
         $Output += $Value
