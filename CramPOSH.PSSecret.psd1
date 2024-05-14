@@ -12,7 +12,7 @@
 RootModule = 'CramPOSH.PSSecret.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.10'
+ModuleVersion = '0.0.11'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ Description = 'Store secrets to AppData, encrypted by certificates'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Clear-Secret', 'Get-Secret', 'Set-Secret'
+FunctionsToExport = 'Clear-Secret', 'Get-Secret', 'Set-Secret', 'Get-SecretCertificate', 'Get-SecretFile', 'Get-SecretConstants'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
