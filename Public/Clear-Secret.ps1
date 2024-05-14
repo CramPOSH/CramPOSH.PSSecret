@@ -22,7 +22,7 @@ function Clear-Secret {
     
     begin {
         $Constants = Get-SecretConstants
-        $GroupName = $GroupName ? $GroupName : $Constants.DefaultGroupName
+        if ($null -eq $GroupName) { $GroupName = $Constants.DefaultGroupName }
         
         $TheCertificate = Get-SecretCertificate -Name $GroupName -CertificateStore $KeyStorage
         $FilePath = Get-SecretFile -Name $GroupName
