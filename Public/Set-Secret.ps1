@@ -22,10 +22,10 @@ function Set-Secret {
 
 
         $Certificate = Get-SecretCertificate -Name $GroupName -CertificateStore $KeyStorage
-        $PublicKey = $Certificate.PublicKey.GetRSAPublicKey()
+        $PublicKey = $Certificate.PublicKey.Key
 
         $FilePath = Get-SecretFile -Name $GroupName
-        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 100
+        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json
         if ($null -eq $Secrets) { $Secrets = @{} }
     }
     
@@ -44,6 +44,6 @@ function Set-Secret {
     }
     
     end {
-        Set-Content -Path $FilePath -Value ($Secrets | ConvertTo-Json -Depth 1) -Force
+        Set-Content -Path $FilePath -Value ($Secrets | ConvertTo-Json) -Force
     }
 }

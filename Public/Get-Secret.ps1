@@ -21,7 +21,7 @@ function Get-Secret {
         $PrivateKey = $Certificate.PrivateKey
 
         $FilePath = Get-SecretFile -Name $GroupName
-        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json -AsHashtable -Depth 100
+        $Secrets = Get-Content -Path $FilePath | ConvertFrom-Json
         if ($null -eq $Secrets) { $Secrets = @{} }
 
         $Output = @()
@@ -38,7 +38,7 @@ function Get-Secret {
             }
             $Value = [System.Text.Encoding]::UTF8.GetString($ValueByteChunks)
         } else {
-            $Value = Read-Host -AsSecureString -Prompt "Please enter a new value for $Name" | ConvertFrom-SecureString -AsPlainText
+            $Value = Read-Host -AsSecureString -Prompt "Please enter a new value for $Name" | ConvertFrom-SecureString
             Set-Secret -GroupName $GroupName -KeyStorage $KeyStorage -Name $Name -Value $Value
         }
         $Output += $Value
